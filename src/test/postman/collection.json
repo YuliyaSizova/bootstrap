@@ -98,6 +98,57 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "Get Swagger docs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Content-Type is application/json;charset=utf-8\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json;charset=utf-8\";",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Swagger version is 2.0\"] = jsonData.swagger === \"2.0\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/v2/api-docs",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Swagger UI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Content-Type is text/html\"] = postman.getResponseHeader(\"Content-Type\") === \"text/html\";",
+							"",
+							"tests[\"Body contains HTML5 doctype\"] = responseBody.has(\"<!DOCTYPE html>\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/swagger-ui.html",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }
