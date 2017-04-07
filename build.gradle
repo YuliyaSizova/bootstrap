@@ -12,11 +12,13 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -27,6 +29,27 @@ repositories {
 
 jar {
     baseName = 'bootstrap'
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+    push = false
+    applicationName = jar.baseName
+    dockerfile = file('src/main/docker/Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+    }
+}
+
+task dockerUp(type: Exec) {
+    dependsOn 'clean'
+    dependsOn 'build'
+    dependsOn 'buildDocker'
+    tasks.findByName('build').mustRunAfter 'clean'
+    tasks.findByName('buildDocker').mustRunAfter 'build'
+    commandLine 'docker-compose', 'up', '-d'
 }
 
 dependencies {
