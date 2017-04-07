@@ -33,6 +33,8 @@ dependencies {
     compile 'org.slf4j:slf4j-api'
     compile "ch.qos.logback:logback-classic"
     compile "ch.qos.logback:logback-core"
+    compile 'io.springfox:springfox-swagger2:2.4.0'
+    compile 'io.springfox:springfox-swagger-ui:2.4.0'
     compile 'org.projectlombok:lombok'
 
     compile("org.springframework.boot:spring-boot-starter-web") {
