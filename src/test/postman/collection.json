@@ -1,0 +1,154 @@
+{
+	"variables": [],
+	"info": {
+		"name": "bootstrap",
+		"_postman_id": "737e19ee-c507-df22-3660-77ad6c15ef3d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Spring Actuator provides Content-Type\"] = postman.getResponseHeader(\"Content-Type\") === 'application/vnd.spring-boot.actuator.v1+json;charset=UTF-8';",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Status is UP\"] = jsonData.status === 'UP';",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/health",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Time",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"//TODO add format check"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/time",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post Echo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"tests[\"Content-Type is 'application/json;charset=utf-8'\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json;charset=utf-8\";",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Numeric value echoed\"] = jsonData.answer === 42;",
+							"tests[\"String value echoed\"] = jsonData.question === \"unknown\";",
+							"tests[\"Inner object echoed\"] = jsonData.composite.something === \"something\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/echo",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"answer\": 42,\n\t\"question\": \"unknown\",\n\t\"composite\": {\n\t\t\"something\": \"something\"\n\t}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Swagger docs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Content-Type is application/json;charset=utf-8\"] = postman.getResponseHeader(\"Content-Type\") === \"application/json;charset=utf-8\";",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Swagger version is 2.0\"] = jsonData.swagger === \"2.0\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/v2/api-docs",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Swagger UI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Content-Type is text/html\"] = postman.getResponseHeader(\"Content-Type\") === \"text/html\";",
+							"",
+							"tests[\"Body contains HTML5 doctype\"] = responseBody.has(\"<!DOCTYPE html>\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/swagger-ui.html",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

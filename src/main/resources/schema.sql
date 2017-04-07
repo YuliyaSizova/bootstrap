@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS bootstrap (
+  id INTEGER PRIMARY KEY,
+  text VARCHAR(100)
+);
